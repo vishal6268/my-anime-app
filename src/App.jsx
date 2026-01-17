@@ -1,10 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
 import ContactSection from './components/ContactSection';
 import PortfolioSection from './components/PortfolioSection';
 import Cursor from './components/Cursor';
 import Lightbox from './components/Lightbox';
+import Navbar from './components/Navbar';
+
+const backgroundImageUrl = 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1920&auto=format&fit=crop';
 
 const createPlaceholderImage = (color, text) => {
   const svg = `<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="300" fill="${color}"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold">${text}</text></svg>`;
@@ -17,6 +20,39 @@ function App() {
   const [currentImage, setCurrentImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImagesList, setCurrentImagesList] = useState([]);
+  const [isBgImageLoaded, setIsBgImageLoaded] = useState(false);
+  const backgroundRef = useRef(null);
+  const [darkMode, setDarkMode] = useState(true);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => setDarkMode(!darkMode);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = backgroundImageUrl;
+    img.onload = () => {
+      setIsBgImageLoaded(true);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (backgroundRef.current) {
+        const scrolled = window.scrollY;
+        backgroundRef.current.style.transform = `translateY(-${scrolled * 0.1}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleSectionToggle = useCallback((sectionName) => {
     setActiveSection((prevActiveSection) =>
@@ -153,6 +189,43 @@ function App() {
 
   return (
     <div>
+      <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      {!isBgImageLoaded && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#1a1a1a',
+          zIndex: 10000
+        }}>
+          <div className="spinner-border text-light" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
+      <div
+        ref={backgroundRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '120%',
+          zIndex: -1,
+          backgroundImage: `url("${backgroundImageUrl}")`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: darkMode ? 'brightness(0.6)' : 'brightness(1.0)',
+          willChange: 'transform',
+          opacity: isBgImageLoaded ? 1 : 0,
+          transition: 'opacity 1s ease-in-out',
+        }}
+      />
       <HeroSection onSectionToggle={handleSectionToggle} portfolioItems={portfolioItems} />
       <AboutSection isActive={activeSection === 'about'} onClose={() => handleSectionToggle('about')} />
       <ContactSection isActive={activeSection === 'contact'} onClose={() => handleSectionToggle('contact')} />
