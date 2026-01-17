@@ -101,8 +101,8 @@ function App() {
       subtitle: 'Kimetsu no Yaiba', 
       description: 'The story of Tanjiro Kamado and his journey to save his sister Nezuko from becoming a demon.', 
       images: [
-        { src: 'https://i.ibb.co/L5Q2j85/tanjiro.jpg', alt: "Tanjiro Kamado" },
-        { src: 'https://i.ibb.co/3sS7LqX/nezuko.jpg', alt: "Nezuko Kamado" },
+        { src: 'https://images4.alphacoders.com/124/thumb-1920-1248329.jpg', alt: "Tanjiro Kamado" },
+        { src: 'https://images2.alphacoders.com/134/thumb-1920-1347140.png', alt: "Nezuko Kamado" },
         { src: 'https://i.ibb.co/k2h01xX/zenitsu.jpg', alt: "Zenitsu Agatsuma" },
         { src: 'https://i.ibb.co/m0f2m21/inosuke.jpg', alt: "Inosuke Hashibira" }
       ]
