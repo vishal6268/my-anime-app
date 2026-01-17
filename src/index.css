@@ -1,0 +1,531 @@
+/* Google Fonts Imports */
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script:400,700');
+
+/* Bootstrap CSS Import */
+/* Note: If you installed Bootstrap via npm, you might use @import 'bootstrap/dist/css/bootstrap.min.css'; */
+/* For simplicity and direct translation from original, keeping CDN here. */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css');
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* General Body Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6; /* Changed from 1.7 to 1.6 as per new CSS */
+  color: #fff;
+  background-color: #1f2029;
+  overflow: hidden; /* Changed from overflow-x: hidden; */
+  height: 100vh; /* Added for full viewport height */
+  -webkit-transition: all 300ms linear;
+  transition: all 300ms linear;
+  perspective: 800px; /* Added for 3D transforms */
+  cursor: none; /* Hide default cursor */
+}
+
+/* Link and Hover Styling */
+a {
+  cursor: pointer; /* Changed from none to pointer */
+  transition: all 200ms linear;
+}
+a:hover {
+  text-decoration: none;
+}
+
+/* Text Selection Styling */
+::selection {
+  color: #c4c3ca;
+  background-color: #000;
+}
+::-moz-selection {
+  color: #c4c3ca;
+  background-color: #000;
+}
+
+/* Custom Cursors */
+.cursor,
+.cursor2,
+.cursor3{
+  position: fixed;
+  border-radius: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  pointer-events: none;
+  left: -100px; /* Initial off-screen position */
+  top: 50%;
+  mix-blend-mode: difference; /* Blends with background */
+  -webkit-transition: all 300ms linear;
+  transition: all 300ms linear;
+  opacity: 1; /* Ensure cursors are visible by default in React */
+}
+.cursor{
+  background-color: #fff;
+  height: 0; /* Initial height */
+  width: 0; /* Initial width */
+  z-index: 99999;
+}
+.cursor2,.cursor3{
+  height: 36px;
+  width: 36px;
+  z-index:99998;
+  -webkit-transition:all 0.3s ease-out;
+  transition:all 0.3s ease-out
+}
+.cursor2.hover,
+.cursor3.hover{
+  -webkit-transform:scale(2) translateX(-25%) translateY(-25%);
+  transform:scale(2) translateX(-25%) translateY(-25%);
+  border:none
+}
+.cursor2{
+  border: 2px solid #fff;
+}
+.cursor2.hover{
+  background: rgba(255,255,255,1);
+  border-color: transparent;
+}
+
+/* Hide cursors on smaller screens */
+@media screen and (max-width: 1200px){
+  .cursor,.cursor2,.cursor3{
+    display: none
+  }
+}
+
+/* Primary Style - Hero Section */
+.hero-section {
+  position: relative;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Changed from image to gradient */
+  background-size: cover;
+  background-position: center;
+  transform: scale(1) rotateX(0); /* Initial transform */
+  box-shadow: 0 0 40px rgba(0,0,0,0.2);
+  -webkit-transition: all 300ms linear;
+  transition: all 300ms linear;
+  -webkit-transition-delay: 400ms;
+  transition-delay: 400ms;
+  transform-origin: center top;
+}
+.hero-section h1{
+  color: #fff;
+  font-size: 5vw; /* Responsive font size */
+  line-height: 1;
+  font-weight: 900;
+}
+.hero-section .dancing{
+  font-family: 'Dancing Script', cursive;
+  letter-spacing: 1px;
+  color: #866BAF;
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 700;
+}
+@media screen and (max-width: 580px){
+  .hero-section .dancing{
+    font-size: 18px;
+  }
+}
+.hero-section p{
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 1px;
+}
+.hero-section p span{
+  margin-left: 15px;
+  margin-right: 15px;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding-bottom: 35px;
+}
+.hero-section p span:before {
+  position: absolute;
+  content: '';
+  bottom: 10px;
+  left: 50%;
+  height: 30px;
+  width: 30px;
+  margin-left: -15px;
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30px 30px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 16l-6-6h12z"/></svg>');
+  opacity: 0.2;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+.hero-section p span:hover:before {
+  opacity: 1;
+  bottom: 5px;
+}
+
+/* Portfolio grid styles */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.portfolio-grid span {
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.1);
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  backdrop-filter: blur(10px); /* Added for frosted glass effect */
+  transition: all 0.3s ease;
+  cursor: pointer; /* Ensure pointer cursor on hover targets */
+}
+.portfolio-grid span:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-5px); /* Added subtle lift effect */
+}
+
+/* Body states for all sections (when a section is active) */
+/* These styles apply transforms to the hero section when about/contact/portfolio sections are open */
+body.about-on .hero-section,
+body.contact-on .hero-section {
+  transform: scale(0.75);
+  -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
+}
+body.demonslayer-on .hero-section,
+body.wildlife-on .hero-section,
+body.nature-on .hero-section,
+body.blackclover-on .hero-section,
+body.angelofdeath-on .hero-section,
+body.haiku-on .hero-section,
+body.deadpool-on .hero-section,
+body.deathnote-on .hero-section,
+body.fairytale-on .hero-section,
+body.goku-on .hero-section,
+body.jjk-on .hero-section,
+body.mosoku-on .hero-section,
+body.hero-on .hero-section, /* Corrected class for 'hero' portfolio item */
+body.naruto-on .hero-section,
+body.sevnfsr-on .hero-section,
+body.cyber-on .hero-section {
+  transform: rotateX(-10deg);
+  -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
+}
+
+/* About and Contact text elements */
+.about-text, .contact-text {
+  position: absolute;
+  font-size: 17px;
+  line-height: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+  top: 50%;
+  cursor: pointer;
+  z-index: 2;
+  -webkit-writing-mode: vertical-lr; /* Vertical text */
+  writing-mode: vertical-lr;
+  transform: translateY(-50%);
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+.about-text {
+  left: 40px;
+}
+.contact-text {
+  right: 40px;
+  transform: translateY(-50%) rotate(180deg); /* Rotated for vertical text on right */
+}
+
+/* About and Contact section containers */
+.about-section, .contact-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  height: 100vh;
+  background-color: rgba(31,32,41,1);
+  -webkit-transition: all 300ms linear;
+  transition: all 300ms linear;
+  z-index: 10;
+  /* Added for React: these sections should be hidden by default and shown via 'active' class */
+  opacity: 0;
+  pointer-events: none;
+}
+.about-section {
+  transform: translateX(-100%); /* Hidden off-screen to the left */
+}
+.contact-section {
+  transform: translateX(100%); /* Hidden off-screen to the right */
+}
+
+/* Active state for About and Contact sections */
+body.about-on .about-section,
+body.contact-on .contact-section {
+  transform: translateX(0); /* Slide into view */
+  -webkit-transition-delay: 400ms;
+  transition-delay: 400ms;
+  opacity: 1; /* Make visible */
+  pointer-events: auto; /* Enable interactions */
+}
+
+/* Close buttons for About and Contact sections */
+.about-close, .contact-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  display: block;
+  overflow: hidden;
+  height: 30px;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 36px 36px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>'); /* Close icon */
+  cursor: pointer;
+  z-index: 11;
+}
+.about-close:hover, .contact-close:hover {
+  transform: rotate(90deg); /* Rotate on hover */
+}
+
+/* Centering content within sections */
+.section-center {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  padding: 0 15px; /* Added padding for responsiveness */
+}
+
+/* About section image */
+.about-section img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+
+/* Contact section links */
+.contact-section a{
+  margin: 0 auto;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #fff;
+  display: inline-block;
+}
+.contact-section .social a{
+  margin-left: 8px;
+  margin-right: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #866BAF;
+}
+
+/* Portfolio sections base styling */
+.portfolio-section {
+  position: fixed;
+  top: 100%; /* Hidden off-screen below */
+  left: 0;
+  padding: 100px 0;
+  width: 100%;
+  height: 100vh;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto; /* Allows scrolling if content is long */
+  background-color: rgba(31,32,41,1);
+  -webkit-transition: all 300ms linear;
+  transition: all 300ms linear;
+  z-index: 10;
+  /* Added for React: these sections should be hidden by default and shown via 'active' class */
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Close button for portfolio sections */
+.portfolio-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  display: block;
+  overflow: hidden;
+  height: 30px;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 36px 36px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>'); /* Close icon */
+  cursor: pointer;
+  z-index: 11;
+}
+.portfolio-close:hover {
+  transform: rotate(90deg);
+}
+
+/* Active state for portfolio sections */
+/* These styles slide the portfolio section into view */
+body.demonslayer-on .demonslayer-section,
+body.wildlife-on .wildlife-section,
+body.nature-on .nature-section,
+body.blackclover-on .blackclover-section,
+body.angelofdeath-on .angelofdeath-section,
+body.haiku-on .haiku-section,
+body.deadpool-on .deadpool-section,
+body.deathnote-on .deathnote-section,
+body.fairytale-on .fairytale-section,
+body.goku-on .goku-section,
+body.jjk-on .jjk-section,
+body.mosoku-on .mosoku-section,
+body.hero-on .hero-section-portfolio, /* Corrected class name as per original HTML */
+body.naruto-on .naruto-section,
+body.sevnfsr-on .sevnfsr-section,
+body.cyber-on .cyber-section {
+  top: 0; /* Slide into view */
+  -webkit-transition-delay: 400ms;
+  transition-delay: 400ms;
+  opacity: 1; /* Make visible */
+  pointer-events: auto; /* Enable interactions */
+}
+
+/* Portfolio section images */
+.portfolio-section img {
+  margin-top: 30px;
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* Portfolio section headings and text */
+.portfolio-section h3 {
+  font-size: 44px;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+}
+.portfolio-section p {
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 1px;
+}
+.portfolio-section p span {
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 700;
+  color: #866BAF;
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 580px){
+  .contact-section a{
+    font-size: 17px;
+  }
+  .contact-section .social a{
+    margin-left: 3px;
+    margin-right: 3px;
+    font-size: 13px;
+    letter-spacing: 0;
+  }
+  .portfolio-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+  }
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+/* Lightbox Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
